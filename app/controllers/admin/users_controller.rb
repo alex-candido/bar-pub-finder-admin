@@ -3,8 +3,10 @@ class Admin::UsersController < Admin::BaseController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @q = User.ransack(params[:q])
+    @users = @q.result(distinct: true).paginate(page: params[:page], per_page: 15)
   end
+
 
   # GET /users/1 or /users/1.json
   def show
@@ -25,7 +27,7 @@ class Admin::UsersController < Admin::BaseController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
+        format.html { redirect_to admin_user_url(@user), notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,7 @@ class Admin::UsersController < Admin::BaseController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
+        format.html { redirect_to admin_user_url(@user), notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +54,7 @@ class Admin::UsersController < Admin::BaseController
     @user.destroy!
 
     respond_to do |format|
-      format.html { redirect_to users_path, status: :see_other, notice: "User was successfully destroyed." }
+      format.html { redirect_to admin_users_path, status: :see_other, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end

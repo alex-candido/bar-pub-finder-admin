@@ -16,10 +16,10 @@
             .footer-content
               .footer-left
               .footer-right
-                  .pagination.inline-flex.gap-x-2
+                  .action-buttons.inline-flex.gap-x-2
                     =< link_to admin_users_path, class: "btn-base" do
                       = inline_svg_tag "chevron-left.svg"
-                      | Go back
-                    = button_to "Destroy", [:admin, @user], method: :delete, data: { "turbo-confirm": "Are you sure?" }, class: "btn-base"
+                      | Back to users
+                    = button_to "Destroy", [:admin, @user], method: :delete, data: { "turbo-confirm": "Are you sure?" }, class: "btn-danger leading-[1.3rem]"
                     => link_to "Edit this user", edit_admin_user_path(@user), class: "btn-base"
 

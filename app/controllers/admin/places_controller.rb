@@ -3,7 +3,8 @@ class Admin::PlacesController < Admin::BaseController
 
   # GET /places or /places.json
   def index
-    @places = Place.all
+    @q = Place.ransack(params[:q])
+    @places = @q.result(distinct: true).paginate(page: params[:page], per_page: 15)
   end
 
   # GET /places/1 or /places/1.json
@@ -25,7 +26,7 @@ class Admin::PlacesController < Admin::BaseController
 
     respond_to do |format|
       if @place.save
-        format.html { redirect_to @place, notice: "Place was successfully created." }
+        format.html { redirect_to admin_place_url(@place), notice: "Place was successfully created." }
         format.json { render :show, status: :created, location: @place }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +39,7 @@ class Admin::PlacesController < Admin::BaseController
   def update
     respond_to do |format|
       if @place.update(place_params)
-        format.html { redirect_to @place, notice: "Place was successfully updated." }
+        format.html { redirect_to admin_place_url(@place), notice: "Place was successfully updated." }
         format.json { render :show, status: :ok, location: @place }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +53,7 @@ class Admin::PlacesController < Admin::BaseController
     @place.destroy!
 
     respond_to do |format|
-      format.html { redirect_to places_path, status: :see_other, notice: "Place was successfully destroyed." }
+      format.html { redirect_to admin_places_path, status: :see_other, notice: "Place was successfully destroyed." }
       format.json { head :no_content }
     end
   end
