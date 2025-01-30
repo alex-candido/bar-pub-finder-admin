@@ -38,9 +38,10 @@
       .field-label
         .label Role:
       .field-value
-        = f.input :role, label: false, wrapper_html: { class: "field-wrapper" }, input_html: { class: "input-base" }
+        = f.input :role, collection: User.roles.keys, selected: f.object.role, label: false, wrapper_html: { class: "field-wrapper" }, input_html: { class: "input-base" }
+
     .field-item
       .field-label
         .label Status:
       .field-value
-        = f.input :status, label: false, wrapper_html: { class: "field-wrapper" }, input_html: { class: "input-base" }
+        = f.input :status, collection: User.statuses.keys, selected: f.object.status, label: false, wrapper_html: { class: "field-wrapper" }, input_html: { class: "input-base" }

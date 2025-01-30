@@ -32,10 +32,13 @@ class Place < ApplicationRecord
 
   enum type: { bar: 0, pub: 1, restaurant: 2, cafe: 3, nightclub: 4, brewery: 5, winery: 6, food_truck: 7, cocktail_bar: 8, sports_bar: 9, lounge: 10, rooftop_bar: 11 }, _prefix: true
 
-  after_validation :reverse_geocode, if: ->(obj) {
-    obj.latitude.present? && obj.longitude.present? &&
-    (obj.latitude_changed? || obj.longitude_changed?)
-  }
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w(name status type)
+  end
 
   private
     def set_coords

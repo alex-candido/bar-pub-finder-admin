@@ -25,7 +25,7 @@
       .field-label
         span.label Preferences:
       .field-value
-        .value = user.preferences
+        .value = JSON.pretty_generate(user.preferences)
     hr.border-gray-200.dark:border-neutral-700[class="-mx-6"]
     .field-item
       .field-label
