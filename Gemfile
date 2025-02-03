@@ -88,6 +88,8 @@ gem "cssbundling-rails"
 # [https://github.com/jamesmartin/inline_svg]
 gem "inline_svg"
 
+# [https://github.com/rails/jsbundling-rails]
+gem "jsbundling-rails", "~> 1.3"
 
 # Think of ViewComponents as an evolution of the presenter pattern, inspired by React.
 # https://viewcomponent.org/
