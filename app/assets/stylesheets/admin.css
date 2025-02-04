@@ -15,7 +15,7 @@
     --navbar-height: 3.8rem;
     --footer-height: 3.875rem;
     --chevron-left: url('data:image/svg+xml;utf8,<svg class="shrink-0 overflow-visible size-3 text-gray-400 dark:text-neutral-500 __web-inspector-hide-shortcut__" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>');
-    --chevron-right: url('data:image/svg+xml;utf8,<svg class="shrink-0 overflow-visible size-2.5 text-gray-400 dark:text-neutral-500 __web-inspector-hide-shortcut__" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>')
+    --chevron-right: url('data:image/svg+xml;utf8,<svg class="shrink-0 overflow-visible size-2.5 text-gray-400 dark:text-neutral-500 __web-inspector-hide-shortcut__" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>');
   }
 
   html,
@@ -334,6 +334,15 @@
   .form-inputs {
     .form-content {
       @apply space-y-4 md:space-y-6 flex-1 text-sm;
+    }
+  }
+}
+
+/* MapView Component Classes */
+@layer components {
+  .map-view {
+    .map-container {
+      @apply w-full h-[86.8vh];
     }
   }
 }

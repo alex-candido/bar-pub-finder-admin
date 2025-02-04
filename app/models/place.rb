@@ -37,7 +37,7 @@ class Place < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w(name status type)
+    %w[name status type]
   end
 
   private
