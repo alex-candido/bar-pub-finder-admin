@@ -1,0 +1,28 @@
+.details[id="#{dom_id place}"]
+  .details-content
+    .field-item
+      .field-label
+        span.label Name:
+      .field-value
+        .value = place.name
+    .field-item
+      .field-label
+        span.label Description:
+      .field-value
+        .value = place.description
+    hr.border-gray-200.dark:border-neutral-700[class="-mx-6"]
+    .field-item
+      .field-label
+        span.label Info:
+      pre.field-value.highlight
+        code.value = JSON.pretty_generate(place.info)
+    .field-item
+      .field-label
+        span.label Latitude:
+      .field-value
+        .value = place.latitude
+    .field-item
+      .field-label
+        span.label Longitude:
+      .field-value
+        .value = place.longitude

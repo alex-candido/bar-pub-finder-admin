@@ -1,0 +1,31 @@
+= search_form_for @q, url: admin_users_path, builder: SimpleForm::FormBuilder, html: { class: '' } do |f|
+  .layout-admin-form.flex.gap-2.flex-wrap
+    .form-inputs[class="grid gap-2 sm:grid-cols-2 md:grid-cols-4"]
+      .form-content
+        .field-item.flex.flex-col
+          .field-label.text-start.text-sm.font-semibold.text-gray-800.dark:text-neutral-200
+            | Name or Username
+          .field-value
+            = f.input :name_or_username_cont, label: false, placeholder: "Enter name or username", input_html: { class: "input-base w-44" }
+      .form-content
+        .field-item.flex.flex-col
+          .field-label.text-start.text-sm.font-semibold.text-gray-800.dark:text-neutral-200
+            | Email
+          .field-value
+            = f.input :email_cont, label: false, placeholder: "Enter email", input_html: { class: "input-base w-44" }
+      .form-content
+        .field-item.flex.flex-col
+          .field-label.text-start.text-sm.font-semibold.text-gray-800.dark:text-neutral-200
+            | Status
+          .field-value
+            = f.input :status_eq, label: false, collection: User.statuses, prompt: "Select Status", input_html: { class: "hs-select"}
+      .form-content
+        .field-item.flex.flex-col
+          .field-label.text-start.text-sm.font-semibold.text-gray-800.dark:text-neutral-200
+            | Role
+          .field-value
+            = f.input :role_eq, label: false, collection: User.roles, prompt: "Select Role", input_html: { class: "hs-select" }
+
+
+    .form-actions.mt-auto
+      = f.submit "View all", class: "btn-primary cursor-pointer"
