@@ -8,21 +8,7 @@
         .navbar-menu
             .navbar-start
               .navbar-item.relative
-                .input-group
-                  .input-left[class='ps-3.5']
-                    = inline_svg_tag "search.svg", class: 'search'
-                  input.input-base(type='text' placeholder='Search Places' class="ps-10")
-                  .field-close
-                    button.button-close[type="button" aria-label="Close"]
-                      span.sr-only
-                        | Close
-                      = inline_svg_tag "circle-x.svg", class: 'circle-x size-3'
-                  .field-command
-                    = inline_svg_tag "command.svg", class: 'command size-3'
-                    span.mx-1
-                      = inline_svg_tag "plus.svg", class: 'plus'
-                    span.text-xs
-                      | /
+                = react("InputGroup")
             .navbar-end
               .navbar-item
                 button.button-nav-search(type='button')

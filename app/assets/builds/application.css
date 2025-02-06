@@ -1178,18 +1178,9 @@ select {
   z-index: 60;
 }
 
-.z-\[50\] {
-  z-index: 50;
-}
-
 .-mx-6 {
   margin-left: -1.5rem;
   margin-right: -1.5rem;
-}
-
-.mx-1 {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
 }
 
 .mx-3 {
@@ -1938,8 +1929,8 @@ select {
   padding-bottom: 1.25rem;
 }
 
-.pe-3 {
-  padding-inline-end: 0.75rem;
+.pe-3\.5 {
+  padding-inline-end: 0.875rem;
 }
 
 .pe-6 {
@@ -2041,11 +2032,6 @@ select {
   line-height: 1rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
 .\!font-medium {
   font-weight: 500 !important;
 }
@@ -2060,10 +2046,6 @@ select {
 
 .font-semibold {
   font-weight: 600;
-}
-
-.font-bold {
-  font-weight: 700;
 }
 
 .uppercase {

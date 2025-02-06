@@ -17,6 +17,7 @@
     "leaflet": "^1.9.4",
     "leaflet-providers": "^2.0.0",
     "leaflet.markercluster": "^1.5.3",
+    "lucide-react": "^0.474.0",
     "lucide-static": "^0.473.0",
     "nodemon": "^3.1.9",
     "postcss": "^8.5.1",

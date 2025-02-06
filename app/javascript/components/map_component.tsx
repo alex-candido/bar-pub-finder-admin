@@ -1,10 +1,28 @@
-import React, { ComponentProps, useState, useEffect, Component} from "react";
+import React, { ComponentProps, useEffect, useRef, useState } from "react";
+import ReactDOMServer from "react-dom/server";
 
-import { LatLngBounds, LatLngBoundsExpression, LatLngExpression, LeafletEvent } from "leaflet";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import {
+  LatLngBounds,
+  LatLngBoundsExpression,
+  LatLngExpression,
+  LeafletEvent,
+  MarkerCluster,
+  divIcon,
+} from "leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-markercluster";
 
-import { useLocationService } from "../services/use_location_service"
-import { usePlacesService } from "../services/use_places_service"
+import ClusterIcon from "./icons/cluster_icon";
+
+import { usePlacesService } from "../services/use_places_service";
+import { useLocationService } from "../services/use_location_service";
+import { useMapContext } from "../context/map_context";
 
 interface Place {
   id: number;
@@ -42,45 +60,40 @@ const attribution = '© <a href="https://carto.com/attributions">CARTO</a>';
 const opacity = 1.0;
 
 const Map: React.FC<MapProps> = ({ name, ...props }) => {
+  const mapRef = useRef<any>(null);
   const [position, setPosition] = useState<LatLngExpression>(default_position);
-  const [places, setPlaces] = useState<Place[]>([]);
 
+  const { listPlaces } = usePlacesService();
   const { getNavigatorLocation } = useLocationService();
-  const { getPlaces } = usePlacesService()
+  const { places, updatePlaces, filteredPlaces } = useMapContext();
 
-  const loadPlacesWithinBounds = async (bounds: LatLngBounds) => {
+  const loadBoundPlaces = async (bounds: LatLngBounds) => {
     const northEast = bounds.getNorthEast();
     const southWest = bounds.getSouthWest();
 
-    try {
-      const { data } = await getPlaces(northEast, southWest)
+    const { data } = await listPlaces(northEast, southWest);
+    updatePlaces(data);
+  };
 
-      clearPlaces();
-      setPlaces(data);
-    } catch (error) {
-      console.error("Erro ao buscar places:", error);
-    }
-  }
-
-  const handleMapMoveend = (e: LeafletEvent) => {
-    loadPlacesWithinBounds(e.target.getBounds());
-  }
-
-  const handleMapZoomend= (e: LeafletEvent) => {
-    loadPlacesWithinBounds(e.target.getBounds());
-  }
-
-  const clearPlaces = () => {
-    setPlaces([]);
-  }
-  
   const MapEvents = () => {
     useMapEvents({
-      moveend: (e: LeafletEvent) => handleMapMoveend(e),
-      zoomend: (e: LeafletEvent) => handleMapZoomend(e)
-    })
+      moveend: (e: LeafletEvent) => loadBoundPlaces(e.target.getBounds()),
+      zoomend: (e: LeafletEvent) => loadBoundPlaces(e.target.getBounds()),
+    });
     return null;
-  }
+  };
+
+  const createClusterIcon = (cluster: MarkerCluster) => {
+    const count = cluster.getChildCount();
+    const size = Math.min(40, Math.max(20, count));
+    return divIcon({
+      html: ReactDOMServer.renderToStaticMarkup(
+        <ClusterIcon count={count} size={size} />
+      ),
+      className: "custom-cluster",
+      iconSize: [size, size],
+    });
+  };
 
   useEffect(() => {
     getNavigatorLocation((coords: any) => {
@@ -88,6 +101,15 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (mapRef.current) {
+      loadBoundPlaces(mapRef.current.getBounds());
+    }
+  }, [mapRef.current]);
+
+  useEffect(() => {
+    console.log("filteredPlaces", filteredPlaces)
+  }, [filteredPlaces])
   return (
     <div className="map-view" {...props}>
       <MapContainer
@@ -96,6 +118,7 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
         scrollWheelZoom={scrollWheelZoom}
         maxBounds={maxBounds}
         maxBoundsViscosity={maxBoundsViscosity}
+        ref={mapRef}
         className="map-container"
       >
         <TileLayer
@@ -107,6 +130,27 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
           className="tile-layer"
         />
         <MapEvents />
+        <MarkerClusterGroup
+          chunkedLoading
+          spiderfyOnMaxZoom
+          showCoverageOnHover
+          zoomToBoundsOnClick
+          iconCreateFunction={createClusterIcon}
+          className="marker-cluster-group"
+        >
+          {places.map((place) => (
+            <Marker
+              key={`marker_${place.id}`}
+              position={[place.latitude, place.longitude]}
+
+            >
+              <Popup>
+                <h1>{place.name}</h1>
+                <pre>{JSON.stringify(place.info, null, 2)}</pre>
+              </Popup>
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
       </MapContainer>
     </div>
   );

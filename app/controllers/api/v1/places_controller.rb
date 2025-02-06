@@ -12,4 +12,16 @@ class Api::V1::PlacesController < Api::BaseController
       Geo.point(ne_lat, ne_lng)
     ).limit(200)
   end
+
+  def search
+    address = params[:address].to_s
+    distance = params[:distance].to_i
+
+    coordinates = Place.g_coordinates_by_address(address)
+
+    lat = coordinates.latitude
+    lon = coordinates.longitude
+
+    @places = Place.g_near(Geo.point(lat, lon), distance).limit(200)
+  end
 end

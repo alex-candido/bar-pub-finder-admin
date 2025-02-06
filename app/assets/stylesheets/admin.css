@@ -133,14 +133,18 @@
     @apply input-base bg-white border-gray-200 text-gray-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600;
   }
   .input-group {
+    @apply flex items-center border rounded-lg overflow-hidden shadow-sm;
     .input-left {
-      @apply absolute inset-y-0 start-0 flex items-center pointer-events-none z-20;
+      @apply ps-3.5 absolute inset-y-0 start-0 flex items-center pointer-events-none z-20;
+    }
+    .input-base {
+      @apply ps-10 flex-1 p-2 outline-none;
     }
     .field-close {
-      @apply hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1;
+      @apply pe-3.5 absolute inset-y-0 end-0 flex items-center z-20;
     }
     .field-command {
-      @apply absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-3 text-gray-400;
+      @apply absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 text-gray-400;
     }
   }
 }

@@ -1548,6 +1548,17 @@ main{
   --tw-ring-color: rgb(82 82 82 / var(--tw-ring-opacity));
 }
 
+.input-group{
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .input-group .input-left{
     pointer-events: none;
   }
@@ -1577,8 +1588,25 @@ main{
     align-items: center;
   }
 
-.input-group .field-close{
-    pointer-events: none;
+.input-group .input-left{
+    padding-inline-start: 0.875rem;
+  }
+
+.input-group .input-base{
+    flex: 1 1;
+  }
+
+.input-group .input-base{
+    padding: 0.5rem;
+  }
+
+.input-group .input-base{
+    padding-inline-start: 2.5rem;
+  }
+
+.input-group .input-base{
+    outline: 2px solid transparent;
+    outline-offset: 2px;
   }
 
 .input-group .field-close{
@@ -1603,15 +1631,11 @@ main{
   }
 
 .input-group .field-close{
-    display: none;
-  }
-
-.input-group .field-close{
     align-items: center;
   }
 
 .input-group .field-close{
-    padding-inline-end: 0.25rem;
+    padding-inline-end: 0.875rem;
   }
 
 .input-group .field-command{
@@ -1641,10 +1665,6 @@ main{
 
 .input-group .field-command{
     align-items: center;
-  }
-
-.input-group .field-command{
-    padding-inline-end: 0.75rem;
   }
 
 .input-group .field-command{
@@ -3219,18 +3239,9 @@ main{
   z-index: 60;
 }
 
-.z-\[50\]{
-  z-index: 50;
-}
-
 .-mx-6{
   margin-left: -1.5rem;
   margin-right: -1.5rem;
-}
-
-.mx-1{
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
 }
 
 .mx-3{
@@ -3979,8 +3990,8 @@ main{
   padding-bottom: 1.25rem;
 }
 
-.pe-3{
-  padding-inline-end: 0.75rem;
+.pe-3\.5{
+  padding-inline-end: 0.875rem;
 }
 
 .pe-6{
@@ -4082,11 +4093,6 @@ main{
   line-height: 1rem;
 }
 
-.text-4xl{
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
 .\!font-medium{
   font-weight: 500 !important;
 }
@@ -4101,10 +4107,6 @@ main{
 
 .font-semibold{
   font-weight: 600;
-}
-
-.font-bold{
-  font-weight: 700;
 }
 
 .uppercase{
