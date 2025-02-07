@@ -5,3 +5,7 @@ Accept: application/json
 ###
 GET http://localhost:3100/api/v1/places/search.json?address="Rua Francisco Mendes de Oliveira, 634"&distance=5
 Accept: application/json
+
+###
+GET http://localhost:3100/api/v1/places/location.json?address="Fortaleza"
+Accept: application/json

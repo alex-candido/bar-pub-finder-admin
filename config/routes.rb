@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :places, only: [ :index ] do
         collection do
           get :search
+          get :location
         end
       end
     end

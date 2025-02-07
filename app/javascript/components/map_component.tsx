@@ -2,12 +2,11 @@ import React, { ComponentProps, useEffect, useRef, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 
 import {
+  divIcon,
   LatLngBounds,
   LatLngBoundsExpression,
-  LatLngExpression,
   LeafletEvent,
   MarkerCluster,
-  divIcon,
 } from "leaflet";
 import {
   MapContainer,
@@ -15,14 +14,57 @@ import {
   Popup,
   TileLayer,
   useMapEvents,
+  ZoomControl,
 } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 
 import ClusterIcon from "./icons/cluster_icon";
+import CurrentLocationIcon from "./icons/current_location_icon";
+import DefaultPlaceIcon from "./icons/default_place_icon";
+import SearchedPlaceIcon from "./icons/searched_place_Icon";
 
-import { usePlacesService } from "../services/use_places_service";
-import { useLocationService } from "../services/use_location_service";
 import { useMapContext } from "../context/map_context";
+import { useLocationService } from "../services/use_location_service";
+import { usePlacesService } from "../services/use_places_service";
+
+import LeftMapOpenIcon from "../components/icons/left_map_open_icon";
+import Sidebar from "../components/sidebar_component";
+
+const createDefaultPlaceIcon = () => {
+  return divIcon({
+    html: ReactDOMServer.renderToStaticMarkup(<DefaultPlaceIcon />),
+    iconSize: [30, 30],
+    className: "border-none bg-transparent",
+  });
+};
+
+const createSearchedPlaceIcon = () => {
+  return divIcon({
+    html: ReactDOMServer.renderToStaticMarkup(<SearchedPlaceIcon />),
+    iconSize: [30, 30],
+    className: "border-none bg-transparent",
+  });
+};
+
+const createCurrentLocationIcon = () => {
+  return divIcon({
+    html: ReactDOMServer.renderToStaticMarkup(<CurrentLocationIcon />),
+    iconSize: [30, 30],
+    className: "border-none bg-transparent",
+  });
+};
+
+const createClusterIcon = (cluster: MarkerCluster) => {
+  const count = cluster.getChildCount();
+  const size = Math.min(40, Math.max(20, count));
+  return divIcon({
+    html: ReactDOMServer.renderToStaticMarkup(
+      <ClusterIcon count={count} size={size} />,
+    ),
+    className: "custom-cluster",
+    iconSize: [size, size],
+  });
+};
 
 interface Place {
   id: number;
@@ -42,7 +84,6 @@ interface MapProps extends ComponentProps<"div"> {
 }
 
 // MapContainer
-const default_position: LatLngExpression = [-3.71722, -38.5433];
 const zoom_level = 13;
 const scrollWheelZoom = true;
 const maxBoundsViscosity = 1.0;
@@ -61,18 +102,30 @@ const opacity = 1.0;
 
 const Map: React.FC<MapProps> = ({ name, ...props }) => {
   const mapRef = useRef<any>(null);
-  const [position, setPosition] = useState<LatLngExpression>(default_position);
+  const [sidebarVisible, SetSidebarVisible] = useState(false);
 
   const { listPlaces } = usePlacesService();
   const { getNavigatorLocation } = useLocationService();
-  const { places, updatePlaces, filteredPlaces } = useMapContext();
+  const {
+    places,
+    updatePlaces,
+    filteredPlaces,
+    searchPosition,
+    updateSearchPosition,
+  } = useMapContext();
 
   const loadBoundPlaces = async (bounds: LatLngBounds) => {
     const northEast = bounds.getNorthEast();
     const southWest = bounds.getSouthWest();
 
     const { data } = await listPlaces(northEast, southWest);
-    updatePlaces(data);
+
+    if (filteredPlaces.length) {
+      const updatedPlaces = replaceMatchingPlaces(data, filteredPlaces);
+      updatePlaces(updatedPlaces);
+    } else {
+      updatePlaces(data);
+    }
   };
 
   const MapEvents = () => {
@@ -83,21 +136,44 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
     return null;
   };
 
-  const createClusterIcon = (cluster: MarkerCluster) => {
-    const count = cluster.getChildCount();
-    const size = Math.min(40, Math.max(20, count));
-    return divIcon({
-      html: ReactDOMServer.renderToStaticMarkup(
-        <ClusterIcon count={count} size={size} />
-      ),
-      className: "custom-cluster",
-      iconSize: [size, size],
+  const ClickToCopyCoordinates = () => {
+    useMapEvents({
+      click: (e) => {
+        const { lat, lng } = e.latlng;
+        const coords = `${lat}, ${lng}`;
+
+        // Copiar para a área de transferência
+        navigator.clipboard
+          .writeText(coords)
+          .catch((err) => console.error("Erro ao copiar coordenadas:", err));
+      },
     });
+
+    return null;
   };
+
+  function replaceMatchingPlaces(
+    places: Place[],
+    filteredPlaces: Place[],
+  ): Place[] {
+    const newPlaces = [...places];
+
+    filteredPlaces.forEach((filteredPlace) => {
+      const index = newPlaces.findIndex(
+        (place) => place.id === filteredPlace.id,
+      );
+
+      if (index !== -1) {
+        newPlaces[index] = filteredPlace;
+      }
+    });
+
+    return newPlaces;
+  }
 
   useEffect(() => {
     getNavigatorLocation((coords: any) => {
-      setPosition([coords.latitude, coords.longitude]);
+      updateSearchPosition([coords.latitude, coords.longitude]);
     });
   }, []);
 
@@ -107,20 +183,43 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
     }
   }, [mapRef.current]);
 
+  // useEffect(() => {
+  //   if (mapRef.current && filteredPlaces.length > 0) {
+  //     const bounds = new LatLngBounds(
+  //       filteredPlaces.map((place) => [place.latitude, place.longitude]),
+  //     );
+  //     mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+  //   }
+  // }, [filteredPlaces]);
+
   useEffect(() => {
-    console.log("filteredPlaces", filteredPlaces)
-  }, [filteredPlaces])
+    if (mapRef.current && searchPosition) {
+      mapRef.current.flyTo(searchPosition, 16);
+    }
+  }, [searchPosition]);
+
   return (
     <div className="map-view" {...props}>
+      <button
+        className="map-toggle-sidebar btn-base"
+        onClick={() => SetSidebarVisible(!sidebarVisible)}
+      >
+        <LeftMapOpenIcon />
+      </button>
+      {sidebarVisible && <Sidebar />}
       <MapContainer
-        center={position}
+        center={searchPosition}
         zoom={zoom_level}
         scrollWheelZoom={scrollWheelZoom}
         maxBounds={maxBounds}
         maxBoundsViscosity={maxBoundsViscosity}
         ref={mapRef}
+        attributionControl={false}
         className="map-container"
+        zoomControl={false}
       >
+        <ClickToCopyCoordinates />
+        <ZoomControl position="topright" />
         <TileLayer
           url={urlLayer}
           maxZoom={maxZoom}
@@ -130,19 +229,27 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
           className="tile-layer"
         />
         <MapEvents />
+        <Marker position={searchPosition} icon={createCurrentLocationIcon()}>
+          <Popup>Minha Localização</Popup>
+        </Marker>
         <MarkerClusterGroup
           chunkedLoading
           spiderfyOnMaxZoom
           showCoverageOnHover
           zoomToBoundsOnClick
           iconCreateFunction={createClusterIcon}
+          disableClusteringAtZoom={14}
           className="marker-cluster-group"
         >
           {places.map((place) => (
             <Marker
               key={`marker_${place.id}`}
               position={[place.latitude, place.longitude]}
-
+              icon={
+                place.is_filtered
+                  ? createSearchedPlaceIcon()
+                  : createDefaultPlaceIcon()
+              }
             >
               <Popup>
                 <h1>{place.name}</h1>

@@ -129,16 +129,22 @@
   .input-base {
     @apply py-2 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600 text-gray-600 dark:text-neutral-400;
   }
+  .input-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 py-2 block w-full border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 placeholder:text-neutral-400 dark:focus:ring-neutral-600 text-white dark:text-white
+  }
   .input-light {
     @apply input-base bg-white border-gray-200 text-gray-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600;
   }
   .input-group {
-    @apply flex items-center border rounded-lg overflow-hidden shadow-sm;
+    @apply flex items-center border rounded-lg shadow-sm transition-[width] ease-in focus-within:w-full;
     .input-left {
       @apply ps-3.5 absolute inset-y-0 start-0 flex items-center pointer-events-none z-20;
     }
+    .input-right {
+      @apply pe-3.5 absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 border-l border-gray-200;
+    }
     .input-base {
-      @apply ps-10 flex-1 p-2 outline-none;
+      @apply pl-10 pr-6 flex-1 p-2 outline-none;
     }
     .field-close {
       @apply pe-3.5 absolute inset-y-0 end-0 flex items-center z-20;
@@ -347,6 +353,32 @@
   .map-view {
     .map-container {
       @apply w-full h-[86.8vh];
+    }
+    .map-sidebar {
+      @apply absolute z-[500] left-3 top-[5rem] sm:top-14 pr-[0.7rem];
+      .input-group {
+        @apply border-0;
+        .search-input {
+          @apply !rounded-r-none !w-[18rem];
+        }
+        .select-input {
+          @apply pr-10 pl-3 w-[11rem] !rounded-l-none !border-l-0;
+        }
+      }
+    }
+    .map-toggle-sidebar {
+      @apply absolute z-[500] left-3 top-[0.625rem];
+    }
+    .leaflet-top {
+      .leaflet-bar {
+        @apply flex flex-col border-0 gap-1;
+        .leaflet-control-zoom-in {
+          @apply btn-base !p-0 justify-center;
+        }
+        .leaflet-control-zoom-out {
+          @apply btn-base !p-0 justify-center;
+        }
+      }
     }
   }
 }

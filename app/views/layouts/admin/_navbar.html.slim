@@ -8,12 +8,7 @@
         .navbar-menu
             .navbar-start
               .navbar-item.relative
-                = react("InputGroup")
             .navbar-end
-              .navbar-item
-                button.button-nav-search(type='button')
-                  = inline_svg_tag "search.svg", class: 'search'
-                  span.sr-only Search
               .navbar-item 
                 = link_to admin_map_index_path, class: "btn-base" do 
                   = inline_svg_tag "earth.svg", class: 'house size-4'

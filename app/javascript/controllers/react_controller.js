@@ -3,12 +3,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import Map from "../components/map_component";
-import InputGroup from "../components/input_group_component";
+import InputSearch from "../components/input_search_component";
 import PlacesList from "../components/places_list_component";
+import Sidebar from "../components/sidebar_component";
 
 import { MapContextProvider } from "../context/map_context";
 
-const modules = { Map, PlacesList, InputGroup };
+const modules = { Map, PlacesList, InputSearch, Sidebar };
 
 export default class extends Controller {
   static values = {

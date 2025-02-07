@@ -29,9 +29,8 @@ module PlaceGeolocation
       where("ST_Covers(:polygon,coords)", polygon: Geo.to_wkt(polygon))
     end
 
-    def self.g_coordinates_by_address(address)
-      location = Geocoder.search(address)
-      location.first
+    def self.g_locations(address)
+      Geocoder.search(address)
     end
   end
 end
