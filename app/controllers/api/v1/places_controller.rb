@@ -13,6 +13,12 @@ class Api::V1::PlacesController < Api::BaseController
     ).limit(200)
   end
 
+  def show
+    address = params[:address].to_s
+
+    @location = Place.g_locations(address).first
+  end
+
   def search
     address = params[:address].to_s
     distance = params[:distance].to_i
@@ -23,11 +29,5 @@ class Api::V1::PlacesController < Api::BaseController
     lon = @location.longitude
 
     @places = Place.g_near(Geo.point(lat, lon), distance).limit(200)
-  end
-
-  def location
-    address = params[:address]
-
-    @locations = Place.g_locations(address)
   end
 end

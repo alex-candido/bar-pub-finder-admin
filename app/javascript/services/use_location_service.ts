@@ -17,6 +17,7 @@ export function useLocationService() {
         console.error("Erro ao obter localização:", error);
       }
     );
+    
   };
 
   return { getNavigatorLocation };

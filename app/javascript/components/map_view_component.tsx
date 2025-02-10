@@ -23,12 +23,13 @@ import CurrentLocationIcon from "./icons/current_location_icon";
 import DefaultPlaceIcon from "./icons/default_place_icon";
 import SearchedPlaceIcon from "./icons/searched_place_Icon";
 
-import { useMapContext } from "../context/map_context";
+import { useMapContext, Place } from "../context/map_context";
 import { useLocationService } from "../services/use_location_service";
 import { usePlacesService } from "../services/use_places_service";
 
-import LeftMapOpenIcon from "../components/icons/left_map_open_icon";
-import Sidebar from "../components/sidebar_component";
+import LeftMapOpenIcon from "./icons/left_map_open_icon";
+import Sidebar from "./sidebar_component";
+import PlacePopUp from "./place_popup_component"
 
 const createDefaultPlaceIcon = () => {
   return divIcon({
@@ -59,52 +60,38 @@ const createClusterIcon = (cluster: MarkerCluster) => {
   const size = Math.min(40, Math.max(20, count));
   return divIcon({
     html: ReactDOMServer.renderToStaticMarkup(
-      <ClusterIcon count={count} size={size} />,
+      <ClusterIcon count={count} size={size} />
     ),
     className: "custom-cluster",
     iconSize: [size, size],
   });
 };
 
-interface Place {
-  id: number;
-  name: string;
-  description: string | null;
-  type: string;
-  status: string;
-  latitude: number;
-  longitude: number;
-  created_at: string;
-  updated_at: string;
-  info: any;
-}
-
 interface MapProps extends ComponentProps<"div"> {
   name: string;
 }
+const MapView: React.FC<MapProps> = ({ name, ...props }) => {
+  // MapContainer
+  const zoom_level = 13;
+  const scrollWheelZoom = true;
+  const maxBoundsViscosity = 1.0;
+  const maxBounds: LatLngBoundsExpression = [
+    [-90, -180],
+    [90, 180],
+  ];
 
-// MapContainer
-const zoom_level = 13;
-const scrollWheelZoom = true;
-const maxBoundsViscosity = 1.0;
-const maxBounds: LatLngBoundsExpression = [
-  [-90, -180],
-  [90, 180],
-];
+  // TileLayer
+  const urlLayer =
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+  const maxZoom = 19;
+  const minZoom = 2;
+  const attribution = '© <a href="https://carto.com/attributions">CARTO</a>';
+  const opacity = 1.0;
 
-// TileLayer
-const urlLayer =
-  "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
-const maxZoom = 19;
-const minZoom = 2;
-const attribution = '© <a href="https://carto.com/attributions">CARTO</a>';
-const opacity = 1.0;
-
-const Map: React.FC<MapProps> = ({ name, ...props }) => {
   const mapRef = useRef<any>(null);
   const [sidebarVisible, SetSidebarVisible] = useState(false);
 
-  const { listPlaces } = usePlacesService();
+  const { listPlaces, getPlace } = usePlacesService();
   const { getNavigatorLocation } = useLocationService();
   const {
     places,
@@ -142,7 +129,6 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
         const { lat, lng } = e.latlng;
         const coords = `${lat}, ${lng}`;
 
-        // Copiar para a área de transferência
         navigator.clipboard
           .writeText(coords)
           .catch((err) => console.error("Erro ao copiar coordenadas:", err));
@@ -154,13 +140,13 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
 
   function replaceMatchingPlaces(
     places: Place[],
-    filteredPlaces: Place[],
+    filteredPlaces: Place[]
   ): Place[] {
     const newPlaces = [...places];
 
     filteredPlaces.forEach((filteredPlace) => {
       const index = newPlaces.findIndex(
-        (place) => place.id === filteredPlace.id,
+        (place) => place.id === filteredPlace.id
       );
 
       if (index !== -1) {
@@ -172,8 +158,9 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
   }
 
   useEffect(() => {
-    getNavigatorLocation((coords: any) => {
-      updateSearchPosition([coords.latitude, coords.longitude]);
+    getNavigatorLocation(async (coords: any) => {
+      updateSearchPosition([coords.latitude,coords.longitude]);
+      getPlace(`${coords.latitude},${coords.longitude}`)
     });
   }, []);
 
@@ -182,15 +169,6 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
       loadBoundPlaces(mapRef.current.getBounds());
     }
   }, [mapRef.current]);
-
-  // useEffect(() => {
-  //   if (mapRef.current && filteredPlaces.length > 0) {
-  //     const bounds = new LatLngBounds(
-  //       filteredPlaces.map((place) => [place.latitude, place.longitude]),
-  //     );
-  //     mapRef.current.fitBounds(bounds, { padding: [50, 50] });
-  //   }
-  // }, [filteredPlaces]);
 
   useEffect(() => {
     if (mapRef.current && searchPosition) {
@@ -252,8 +230,7 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
               }
             >
               <Popup>
-                <h1>{place.name}</h1>
-                <pre>{JSON.stringify(place.info, null, 2)}</pre>
+                <PlacePopUp name={place.name} type={place.type} description={place.description}/>
               </Popup>
             </Marker>
           ))}
@@ -263,4 +240,4 @@ const Map: React.FC<MapProps> = ({ name, ...props }) => {
   );
 };
 
-export default Map;
+export default MapView;

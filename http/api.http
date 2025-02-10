@@ -9,3 +9,7 @@ Accept: application/json
 ###
 GET http://localhost:3100/api/v1/places/location.json?address="Fortaleza"
 Accept: application/json
+
+###
+GET http://localhost:3100/api/v1/places/show.json?address=-3.7309572485151254,-38.59299788439392
+Accept: application/json
