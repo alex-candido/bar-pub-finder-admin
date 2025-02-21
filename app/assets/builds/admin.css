@@ -3409,11 +3409,11 @@ main{
   }
 
 .map-sidebar .location-card .location-image{
-      height: 4rem;
+      height: 4.5rem;
     }
 
 .map-sidebar .location-card .location-image{
-      width: 40%;
+      width: 8rem;
     }
 
 .map-sidebar .location-card .location-image img{
@@ -3433,6 +3433,71 @@ main{
         -o-object-position: center;
            object-position: center;
       }
+
+.map-sidebar .location-card .location-name{
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+.map-sidebar .location-card .location-name{
+      text-overflow: ellipsis;
+    }
+
+.map-sidebar .location-card .location-name{
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+
+.map-sidebar .location-card .location-name{
+      font-weight: 600;
+    }
+
+.map-sidebar .location-card .location-name{
+      line-height: 1;
+    }
+
+.map-sidebar .location-card .location-name{
+      --tw-text-opacity: 1;
+      color: rgb(55 65 81 / var(--tw-text-opacity));
+    }
+
+.map-sidebar .location-card .location-city{
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+.map-sidebar .location-card .location-city{
+      text-overflow: ellipsis;
+    }
+
+.map-sidebar .location-card .location-coordinates{
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+.map-sidebar .location-card .location-coordinates{
+      display: flex;
+    }
+
+.map-sidebar .location-card .location-coordinates{
+      text-overflow: ellipsis;
+    }
+
+.map-sidebar .location-card .location-coordinates{
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+
+.map-sidebar .location-card .location-coordinates{
+      --tw-text-opacity: 1;
+      color: rgb(107 114 128 / var(--tw-text-opacity));
+    }
 
 .map-view .map-container{
     height: 86.8vh;
@@ -3854,15 +3919,39 @@ main{
 }
 
 .places-list .places-scroll{
-    margin-top: 1rem;
+    height: 58vh;
   }
 
 .places-list .places-scroll{
-    height: 30rem;
+    overflow-y: auto;
   }
 
 .places-list .places-scroll{
-    overflow-y: scroll;
+    border-radius: 0.5rem;
+  }
+
+.places-list .places-scroll::-webkit-scrollbar-thumb{
+    --tw-bg-opacity: 1;
+    background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  }
+
+.places-list .places-scroll:is(.dark *)::-webkit-scrollbar-thumb{
+    --tw-bg-opacity: 1;
+    background-color: rgb(115 115 115 / var(--tw-bg-opacity));
+  }
+
+.places-list .places-scroll::-webkit-scrollbar-track{
+    --tw-bg-opacity: 1;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+  }
+
+.places-list .places-scroll:is(.dark *)::-webkit-scrollbar-track{
+    --tw-bg-opacity: 1;
+    background-color: rgb(64 64 64 / var(--tw-bg-opacity));
+  }
+
+.places-list .places-scroll::-webkit-scrollbar{
+    width: 0.5rem;
   }
 
 .sr-only{
@@ -4202,10 +4291,6 @@ main{
   height: 11.875rem;
 }
 
-.h-\[30rem\]{
-  height: 30rem;
-}
-
 .h-\[4\.5rem\]{
   height: 4.5rem;
 }
@@ -4214,8 +4299,8 @@ main{
   height: 40px;
 }
 
-.h-\[4rem\]{
-  height: 4rem;
+.h-\[58vh\]{
+  height: 58vh;
 }
 
 .h-\[86\.8vh\]{
@@ -4287,8 +4372,8 @@ main{
   width: 38px;
 }
 
-.w-\[40\%\]{
-  width: 40%;
+.w-\[8rem\]{
+  width: 8rem;
 }
 
 .w-\[calc\(100\%-2rem\)\]{
@@ -4528,8 +4613,8 @@ main{
   overflow-x: auto;
 }
 
-.overflow-y-scroll{
-  overflow-y: scroll;
+.overflow-y-auto{
+  overflow-y: auto;
 }
 
 .truncate{
@@ -4981,6 +5066,10 @@ main{
   line-height: 1.3rem;
 }
 
+.leading-none{
+  line-height: 1;
+}
+
 .tracking-wide{
   letter-spacing: 0.025em;
 }
@@ -5013,6 +5102,11 @@ main{
 .text-gray-600{
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.text-gray-700{
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
 .text-gray-800{
@@ -5889,4 +5983,23 @@ main{
   .xl\:ps-0{
     padding-inline-start: 0px;
   }
+}
+
+.\[\&\:\:-webkit-scrollbar-thumb\]\:bg-gray-300::-webkit-scrollbar-thumb{
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+}
+
+.\[\&\:\:-webkit-scrollbar-track\]\:bg-gray-100::-webkit-scrollbar-track{
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+
+.dark\:\[\&\:\:-webkit-scrollbar-track\]\:bg-neutral-700:is(.dark *)::-webkit-scrollbar-track{
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 64 64 / var(--tw-bg-opacity));
+}
+
+.\[\&\:\:-webkit-scrollbar\]\:w-2::-webkit-scrollbar{
+  width: 0.5rem;
 }

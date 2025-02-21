@@ -99,6 +99,7 @@ const MapView: React.FC<MapProps> = ({ name, ...props }) => {
     filteredPlaces,
     searchPosition,
     updateSearchPosition,
+    updatePosition
   } = useMapContext();
 
   const loadBoundPlaces = async (bounds: LatLngBounds) => {
@@ -157,10 +158,15 @@ const MapView: React.FC<MapProps> = ({ name, ...props }) => {
     return newPlaces;
   }
 
+  const handleGetPlace = async (coords: string) => {
+    const { data } = await getPlace(coords)
+    updatePosition(data)
+  }
+
   useEffect(() => {
-    getNavigatorLocation(async (coords: any) => {
+    getNavigatorLocation((coords: any) => {
       updateSearchPosition([coords.latitude,coords.longitude]);
-      getPlace(`${coords.latitude},${coords.longitude}`)
+      handleGetPlace(`${coords.latitude},${coords.longitude}`)
     });
   }, []);
 
@@ -174,6 +180,7 @@ const MapView: React.FC<MapProps> = ({ name, ...props }) => {
     if (mapRef.current && searchPosition) {
       mapRef.current.flyTo(searchPosition, 16);
     }
+    handleGetPlace(Array(searchPosition).join(", "))
   }, [searchPosition]);
 
   return (
@@ -186,7 +193,7 @@ const MapView: React.FC<MapProps> = ({ name, ...props }) => {
       </button>
       {sidebarVisible && <Sidebar />}
       <MapContainer
-        center={searchPosition}
+        center={searchPosition as any}
         zoom={zoom_level}
         scrollWheelZoom={scrollWheelZoom}
         maxBounds={maxBounds}
@@ -207,7 +214,7 @@ const MapView: React.FC<MapProps> = ({ name, ...props }) => {
           className="tile-layer"
         />
         <MapEvents />
-        <Marker position={searchPosition} icon={createCurrentLocationIcon()}>
+        <Marker position={searchPosition as  any} icon={createCurrentLocationIcon()}>
           <Popup>Minha Localização</Popup>
         </Marker>
         <MarkerClusterGroup

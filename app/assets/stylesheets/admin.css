@@ -379,10 +379,19 @@
     .location-card {
       @apply flex mt-2 p-4 gap-3;
       .location-image {
-        @apply h-[4rem] w-[40%];
+        @apply h-[4.5rem] w-[8rem];
         img {
           @apply h-full object-cover object-center rounded-md;
         }
+      }
+      .location-name {
+        @apply text-lg leading-none font-semibold text-gray-700 text-ellipsis line-clamp-1;
+      }
+      .location-city {
+        @apply text-ellipsis line-clamp-1;
+      }
+      .location-coordinates {
+        @apply flex text-sm text-gray-500 text-ellipsis line-clamp-1;
       }
     }
   }
@@ -455,7 +464,12 @@
 @layer components {
   .places-list {
     .places-scroll {
-      @apply h-[30rem] overflow-y-scroll mt-4;
+      @apply h-[58vh] rounded-lg overflow-y-auto
+      [&::-webkit-scrollbar]:w-2
+      [&::-webkit-scrollbar-track]:bg-gray-100
+      [&::-webkit-scrollbar-thumb]:bg-gray-300
+      dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+      dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500;
     }
   }
 }

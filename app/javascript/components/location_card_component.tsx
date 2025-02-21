@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect, ComponentProps } from "react";
 import PinIcon from "./icons/pin_icon";
 import { useMapContext } from "../context/map_context";
 
-const LocationCard = () => {
-    const { searchPosition } = useMapContext();
+interface LocationCardProps extends ComponentProps<"div"> {}
+
+const LocationCard: React.FC<LocationCardProps> = () => {
+    const { position, searchPosition } = useMapContext();
+
   return (
-    <div className="location-card card">
+    <div className="location-card shadow-2xl card">
       <div className="location-image">
         <img
           src="/images/bar.jpg"
@@ -14,13 +17,21 @@ const LocationCard = () => {
         />
       </div>
       <div className="location-content">
-        <div className="location-name text-xl font-semibold text-gray-700">
-          <span>Fortaleza</span>
+        <div className="location-name text-lg leading-none font-semibold text-gray-700">
+          <span>{position.street} - {position.postal_code}</span>
+        </div>
+        <div className="location-city text-sm text-gray-500">
+          <span>{position.city} - {position.state}, {position.country}</span>
         </div>
         <div className="location-coordinates flex text-sm text-gray-500">
           <PinIcon />
           <div className="coordinates">
-            <span>{Array(searchPosition).join(", ")}</span>
+          <span>
+            {/* @ts-ignore */}
+            {searchPosition.map((coord: number) => 
+              coord.toFixed(5)).join(", ")
+            }
+          </span>
           </div>
         </div>
       </div>

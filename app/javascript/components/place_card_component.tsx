@@ -9,10 +9,10 @@ const PlaceCard: React.FC<PlaceCardProps> = ({ place }) => {
   const businessHours = { isOpen: false, opensAt: "16:00" };
 
   return (
-    <div className="place-card flex p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
+    <div className="place-card flex flex-col p-4 border-b border-gray-200">
       <div className="place-image">
         <figure className="image">
-          <img src="" alt="" />
+          <img src="/images/bar.jpg" alt="" className="w-full object-cover object-center rounded-md" />
         </figure>
       </div>
 

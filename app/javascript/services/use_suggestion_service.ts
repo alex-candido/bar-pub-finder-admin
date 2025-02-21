@@ -19,7 +19,6 @@ export function useSuggestionService() {
     });
 
     useEffect(() => {
-      console.log("useSuggestionService");
       if (address.trim().length < 3) {
         setLoading(false);
         setSuggestions([]);
@@ -31,7 +30,6 @@ export function useSuggestionService() {
         setLoading(true);
         try {
           const results = await provider.search({ query: address });
-          console.log(results);
           setSuggestions(results);
         } catch (error: any) {
           if (error.name === "AbortError" || error.code === "ERR_CANCELED") {

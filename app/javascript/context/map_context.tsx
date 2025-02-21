@@ -15,14 +15,22 @@ export interface Place {
   is_filtered?: boolean;
 }
 
+export interface Position {
+  street?: string;
+  city?: string;
+  state?: string;
+  country?: string; 
+  postal_code?: string;
+}
+
 interface MapContextType {
   places: Place[];
   updatePlaces: (places: Place[]) => Promise<void>;
   filteredPlaces: Place[];
   updateFilteredPlaces: (places: Place[]) => Promise<void>;
-  searchPosition: LatLngExpression;
+  searchPosition: LatLngExpression | Array<number>;
   updateSearchPosition: (position: LatLngExpression) => void;
-  position: any;
+  position: Position;
   updatePosition: (position: any) => void;
 }
 

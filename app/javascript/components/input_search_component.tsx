@@ -29,7 +29,6 @@ const InputSearch: React.FC<InputProps> = () => {
 
     setIsLoading(true);
     try {
-      console.log(`${suggestion.y}, ${suggestion.x}`);
       const { data } = await filterPlaces(
         `${suggestion.y}, ${suggestion.x}`,
         distance
