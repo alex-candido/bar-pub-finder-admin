@@ -2,6 +2,9 @@
 import "@hotwired/turbo-rails";
 import "./controllers";
 
+import "leaflet";
+import "leaflet-geosearch";
+import "leaflet-providers";
 import "preline";
 
 document.addEventListener("turbo:load", function (_event) {

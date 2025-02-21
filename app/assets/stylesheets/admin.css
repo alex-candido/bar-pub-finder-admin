@@ -15,7 +15,7 @@
     --navbar-height: 3.8rem;
     --footer-height: 3.875rem;
     --chevron-left: url('data:image/svg+xml;utf8,<svg class="shrink-0 overflow-visible size-3 text-gray-400 dark:text-neutral-500 __web-inspector-hide-shortcut__" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>');
-    --chevron-right: url('data:image/svg+xml;utf8,<svg class="shrink-0 overflow-visible size-2.5 text-gray-400 dark:text-neutral-500 __web-inspector-hide-shortcut__" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>')
+    --chevron-right: url('data:image/svg+xml;utf8,<svg class="shrink-0 overflow-visible size-2.5 text-gray-400 dark:text-neutral-500 __web-inspector-hide-shortcut__" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>');
   }
 
   html,
@@ -101,6 +101,9 @@
   .btn-secondary {
     @apply btn-base border border-gray-200 bg-white text-gray-800 hover:bg-gray-50 focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800;
   }
+  .btn-outline {
+    @apply p-2 inline-flex border-2 items-center gap-x-2 text-sm font-normal rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 focus:outline-none focus:border-blue-600 active:border-blue-500 focus:text-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-white dark:hover:border-white dark:focus:text-white dark:focus:border-white dark:active:text-white dark:active:border-white bg-white dark:bg-neutral-800 dark:hover:bg-neutral-700;
+  }
   .button-close {
     @apply inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500;
   }
@@ -109,6 +112,9 @@
   }
   .btn-danger {
     @apply text-nowrap py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-red-500 text-red-500 hover:border-red-400 hover:text-red-400 focus:outline-none focus:border-red-400 focus:text-red-400 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-outline.active-outline {
+    @apply border-2 border-blue-500 text-blue-600 dark:text-gray-600 dark:border-neutral-800 dark:text-white;
   }
 }
 
@@ -129,18 +135,28 @@
   .input-base {
     @apply py-2 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600 text-gray-600 dark:text-neutral-400;
   }
+  .input-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 py-2 block w-full border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 placeholder:text-neutral-400 dark:focus:ring-neutral-600 text-white dark:text-white;
+  }
   .input-light {
     @apply input-base bg-white border-gray-200 text-gray-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600;
   }
   .input-group {
+    @apply flex items-start border rounded-lg shadow-sm transition-[width] ease-in focus-within:w-full;
     .input-left {
-      @apply absolute inset-y-0 start-0 flex items-center pointer-events-none z-20;
+      @apply ps-3.5 absolute inset-y-0 start-0 flex items-center pointer-events-none z-20;
+    }
+    .input-right {
+      @apply pe-3.5 absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 border-l border-gray-200;
+    }
+    .input-base {
+      @apply pl-10 pr-6 flex-1 p-2 outline-none;
     }
     .field-close {
-      @apply hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1;
+      @apply pe-3.5 absolute inset-y-0 end-0 flex items-center z-20;
     }
     .field-command {
-      @apply absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-3 text-gray-400;
+      @apply absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 text-gray-400;
     }
   }
 }
@@ -231,6 +247,14 @@
   .dropdown {
     @apply relative inline-flex;
   }
+  .dropdown-content {
+    span {
+      @apply text-ellipsis line-clamp-2;
+    }
+  }
+  .dropdown-search {
+    @apply absolute top-[3.2rem] left-0 w-full bg-white rounded-md shadow-md z-10;
+  }
   .dropdown-account {
     @apply size-[38px] focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-700 dark:border-neutral-700 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border text-gray-800;
   }
@@ -254,30 +278,31 @@
 @layer components {
   .card {
     @apply bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-neutral-800 dark:border-neutral-700;
-  }
-  .card-header {
-    @apply px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-neutral-700;
-    .header-title {
-      .leading {
-        @apply text-xl font-semibold text-gray-800 dark:text-neutral-200;
-      }
-      .support-text {
-        @apply text-sm text-gray-600 dark:text-neutral-400;
+
+    .card-header {
+      @apply px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-neutral-700;
+      .header-title {
+        .leading {
+          @apply text-xl font-semibold text-gray-800 dark:text-neutral-200;
+        }
+        .support-text {
+          @apply text-sm text-gray-600 dark:text-neutral-400;
+        }
       }
     }
-  }
-  .card-content {
-    @apply min-w-full divide-y divide-gray-200 dark:divide-neutral-700 relative overflow-x-auto;
-  }
-  .card-filters {
-    @apply p-4 border-b border-gray-200 dark:border-neutral-700;
-  }
-  .card-content-wrap {
-    @apply inline-block min-w-full align-middle;
-  }
-  .card-footer {
-    .footer-content {
-      @apply px-6 py-5 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-neutral-700;
+    .card-content {
+      @apply min-w-full divide-y divide-gray-200 dark:divide-neutral-700 relative overflow-x-auto;
+    }
+    .card-filters {
+      @apply p-4 border-b border-gray-200 dark:border-neutral-700;
+    }
+    .card-content-wrap {
+      @apply inline-block min-w-full align-middle;
+    }
+    .card-footer {
+      .footer-content {
+        @apply px-6 py-5 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-neutral-700;
+      }
     }
   }
 }
@@ -338,6 +363,90 @@
   }
 }
 
+/* Map Component Classes */
+@layer components {
+  .map-sidebar {
+    @apply absolute z-[500] left-3 top-[5rem] sm:top-14 w-[24rem];
+    .input-group {
+      @apply border-0;
+    }
+    .buttons-action {
+      @apply flex gap-[0.3rem] mt-2 justify-between;
+      button {
+        @apply !py-1;
+      }
+    }
+    .location-card {
+      @apply flex mt-2 p-4 gap-3;
+      .location-image {
+        @apply h-[4.5rem] w-[8rem];
+        img {
+          @apply h-full object-cover object-center rounded-md;
+        }
+      }
+      .location-name {
+        @apply text-lg leading-none font-semibold text-gray-700 text-ellipsis line-clamp-1;
+      }
+      .location-city {
+        @apply text-ellipsis line-clamp-1;
+      }
+      .location-coordinates {
+        @apply flex text-sm text-gray-500 text-ellipsis line-clamp-1;
+      }
+    }
+  }
+}
+
+/* MapView Component Classes */
+@layer components {
+  .map-view {
+    .map-container {
+      @apply w-full h-[86.8vh];
+    }
+    .map-toggle-sidebar {
+      @apply absolute z-[500] left-3 top-[0.625rem];
+    }
+    .leaflet-top {
+      .leaflet-bar {
+        @apply flex flex-col border-0 gap-1;
+        .leaflet-control-zoom-in {
+          @apply btn-base !p-0 justify-center;
+        }
+        .leaflet-control-zoom-out {
+          @apply btn-base !p-0 justify-center;
+        }
+      }
+    }
+  }
+}
+
+/* PopUp Component Classes */
+@layer components {
+  .leaflet-popup {
+    @apply h-[11.875rem] w-[14rem];
+    .card-popup {
+      @apply flex flex-col gap-2;
+      .card-image {
+        @apply h-[4.5rem];
+      }
+      .image {
+        @apply relative w-[14rem] top-[-1rem] left-[-1.3rem] bg-white rounded-t-xl overflow-hidden;
+      }
+    }
+    .card-content {
+      .place-name {
+        @apply text-ellipsis line-clamp-1;
+      }
+    }
+  }
+  .leaflet-popup-content-wrapper {
+    @apply bg-white dark:bg-neutral-800;
+  }
+  .leaflet-popup-tip {
+    @apply bg-white dark:bg-neutral-800;
+  }
+}
+
 /* Menu Component Classes */
 @layer components {
   .menu {
@@ -348,6 +457,20 @@
   }
   .menu-link {
     @apply flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-white;
+  }
+}
+
+/* PlacesList Component Classes */
+@layer components {
+  .places-list {
+    .places-scroll {
+      @apply h-[58vh] rounded-lg overflow-y-auto
+      [&::-webkit-scrollbar]:w-2
+      [&::-webkit-scrollbar-track]:bg-gray-100
+      [&::-webkit-scrollbar-thumb]:bg-gray-300
+      dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+      dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500;
+    }
   }
 }
 

@@ -1,0 +1,15 @@
+###
+GET http://localhost:3100/api/v1/places.json?ne_lat=-3.734464116057717&ne_lng=-38.555799722671516&sw_lat=-3.7419476163528196&sw_lng=-38.56524109840394
+Accept: application/json
+
+###
+GET http://localhost:3100/api/v1/places/search.json?address="Rua Francisco Mendes de Oliveira, 634"&distance=5
+Accept: application/json
+
+###
+GET http://localhost:3100/api/v1/places/location.json?address="Fortaleza"
+Accept: application/json
+
+###
+GET http://localhost:3100/api/v1/places/show.json?address=-3.7309572485151254,-38.59299788439392
+Accept: application/json

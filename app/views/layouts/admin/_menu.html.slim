@@ -6,10 +6,6 @@ nav.layout-admin-aside-menu
                     = inline_svg_tag "house.svg", class: 'house size-4'
                     span.label Dashboard
             li.item
-                = link_to admin_map_index_path, class: "menu-link hover:bg-gray-100 dark:hover:bg-neutral-700 #{'bg-gray-100 dark:!bg-neutral-700' if current_page?(admin_map_index_path)}"
-                    = inline_svg_tag "earth.svg", class: 'house size-4'
-                    span.label Map View
-            li.item
                 = link_to admin_places_path, class: "menu-link hover:bg-gray-100 dark:hover:bg-neutral-700 #{'bg-gray-100 dark:!bg-neutral-700' if current_page?(admin_places_path)}" do
                     = inline_svg_tag "map-pin-house.svg", class: 'map-pin-house size-4'
                     span.label Places
